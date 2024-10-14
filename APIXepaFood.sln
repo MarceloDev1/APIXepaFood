@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIXepaFood", "APIXepaFood\APIXepaFood.csproj", "{A542BB15-C27C-4602-A5B5-87AA14085960}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A542BB15-C27C-4602-A5B5-87AA14085960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A542BB15-C27C-4602-A5B5-87AA14085960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A542BB15-C27C-4602-A5B5-87AA14085960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A542BB15-C27C-4602-A5B5-87AA14085960}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C99F4FCC-CA12-4389-9511-4FDA155B5B60}
+	EndGlobalSection
+EndGlobal
