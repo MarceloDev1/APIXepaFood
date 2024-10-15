@@ -8,5 +8,7 @@ namespace APIXepaFood.Interfaces
         Usuario ObterUsuarioPorEmail(string email);
         List<Usuario> ObterTodosUsuarios();
         Usuario ObterUsuarioPorId(int idUsuario);
+        void AtualizarUsuarioPorId(Usuario novoUsuario);
+        void DeletarUsuarioPorId(int idUsuario);
     }
 }

@@ -70,5 +70,30 @@ namespace APIXepaFood.Data
                 throw new Exception("Erro ao obter usuário por Id", ex);
             }
         }
+
+        public void AtualizarUsuarioPorId(Usuario usuario)
+        {
+            var sql = @"UPDATE Clientes
+                SET Nome = @Nome, Email = @Email, Senha = @Senha, Localizacao = @Localizacao, Telefone = @Telefone
+                WHERE Id = @Id;";
+
+            _dbConnection.Execute(sql, new
+            {
+                usuario.Nome,
+                usuario.Email,
+                usuario.Senha,
+                usuario.Localizacao,
+                usuario.Telefone,
+                usuario.IdUsuario
+            });
+        }
+
+        public void DeletarUsuarioPorId(int idUsuario)
+        {
+            var sql = @"DELETE FROM Clientes WHERE IdCliente = @IdCliente;";
+
+            _dbConnection.Execute(sql, new { IdUsuario = idUsuario });
+        }
+
     }
 }
