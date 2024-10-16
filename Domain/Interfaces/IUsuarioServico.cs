@@ -1,8 +1,8 @@
-﻿using APIXepaFood.Models;
+﻿using Domain.Entidades;
 
-namespace APIXepaFood.Interfaces
+namespace Domain.Interfaces
 {
-    public interface IUsuarioRepositorio
+    public interface IUsuarioServico
     {
         void CriarUsuario(Usuario usuario);
         Usuario ObterUsuarioPorEmail(string email);

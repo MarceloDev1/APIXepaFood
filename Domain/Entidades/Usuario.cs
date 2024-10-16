@@ -1,4 +1,4 @@
-﻿namespace APIXepaFood.Models
+﻿namespace Domain.Entidades
 {
     public class Usuario
     {

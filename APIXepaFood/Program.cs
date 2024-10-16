@@ -1,7 +1,6 @@
-using APIXepaFood.Data;
-using APIXepaFood.Interfaces;
-using Microsoft.Data.SqlClient;
-using System.Data;
+using Domain.Interfaces;
+using Domain.Servicos;
+using Infra.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +9,7 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
-
-builder.Services.AddScoped<IDbConnection>(sp =>
-    new SqlConnection(builder.Configuration.GetConnectionString("ConnectionStringMarcelo")));
+builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
 
 // Configurações do Swagger
 builder.Services.AddEndpointsApiExplorer();

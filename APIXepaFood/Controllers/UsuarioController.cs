@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using APIXepaFood.Models;
-using APIXepaFood.Interfaces;
+using Domain.Entidades;
+using Domain.Interfaces;
 
 namespace APIXepaFood.Controllers
 {
@@ -8,10 +8,10 @@ namespace APIXepaFood.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioRepositorio _usuarioRepositorio;
-        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+        private readonly IUsuarioServico _usuarioServico;
+        public UsuarioController(IUsuarioServico usuarioServico)
         {
-            _usuarioRepositorio = usuarioRepositorio;
+            _usuarioServico = usuarioServico;
         }
 
         [HttpPost]
@@ -21,11 +21,11 @@ namespace APIXepaFood.Controllers
             if (novoUsuario == null)
                 return BadRequest("Dados inválidos.");
 
-            var usuarioExistente = _usuarioRepositorio.ObterUsuarioPorEmail(novoUsuario.Email);
+            var usuarioExistente = _usuarioServico.ObterUsuarioPorEmail(novoUsuario.Email);
             if (usuarioExistente != null)
                 return Conflict("Usuário com este email já existe.");
 
-            _usuarioRepositorio.CriarUsuario(novoUsuario);
+            _usuarioServico.CriarUsuario(novoUsuario);
             return Ok(new { mensagem = "Usuário criado com sucesso!", usuario = novoUsuario });
         }
 
@@ -33,15 +33,15 @@ namespace APIXepaFood.Controllers
         [Route("RetornarUsuarios")]
         public List<Usuario> RetornarUsuarios()
         {
-            var clientes = _usuarioRepositorio.ObterTodosUsuarios();
-            return clientes;
+            var usuarios = _usuarioServico.ObterTodosUsuarios();
+            return usuarios;
         }
 
         [HttpGet]
         [Route("RetornarUsuariosPorId")]
         public Usuario RetornarUsuariosPorId(int idUsuario)
-        {          
-            var usuario = _usuarioRepositorio.ObterUsuarioPorId(idUsuario);
+        {
+            var usuario = _usuarioServico.ObterUsuarioPorId(idUsuario);
             return usuario;
         }
 
@@ -49,14 +49,14 @@ namespace APIXepaFood.Controllers
         [Route("AtualizarUsuarioPorId")]
         public IActionResult AtualizarUsuarioPorId([FromBody] Usuario novoUsuario)
         {
-            var usuarioExistente = _usuarioRepositorio.ObterUsuarioPorId(novoUsuario.IdUsuario);
+            var usuarioExistente = _usuarioServico.ObterUsuarioPorId(novoUsuario.IdUsuario);
 
             if (usuarioExistente == null)
             {
                 return NotFound("Usuário não encontrado.");
             }
 
-            _usuarioRepositorio.AtualizarUsuarioPorId(novoUsuario);
+            _usuarioServico.AtualizarUsuarioPorId(novoUsuario);
 
             return Ok("Usuário atualizado com sucesso.");
         }
@@ -65,17 +65,16 @@ namespace APIXepaFood.Controllers
         [Route("DeletarUsuarioPorId/{idUsuario}")]
         public IActionResult DeletarUsuarioPorId(int idUsuario)
         {
-            var usuarioExistente = _usuarioRepositorio.ObterUsuarioPorId(idUsuario);
+            var usuarioExistente = _usuarioServico.ObterUsuarioPorId(idUsuario);
 
             if (usuarioExistente == null)
             {
                 return NotFound("Usuário não encontrado.");
             }
 
-            _usuarioRepositorio.DeletarUsuarioPorId(idUsuario);
+            _usuarioServico.DeletarUsuarioPorId(idUsuario);
 
             return Ok("Usuário deletado com sucesso.");
         }
-
     }
 }
