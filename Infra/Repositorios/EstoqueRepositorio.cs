@@ -219,7 +219,7 @@ namespace Infra.Repositorios
             }
         }
 
-        public void DeletarEstoquePorId(int idProduto)
+        public void DeletarEstoquePorIdProduto(int idProduto)
         {
             var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))

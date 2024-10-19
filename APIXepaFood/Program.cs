@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
-
+builder.Services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
+builder.Services.AddScoped<IEstoqueServico, EstoqueServico>();
 // Configurações do Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

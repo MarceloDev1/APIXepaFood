@@ -9,7 +9,7 @@ namespace Domain.Interfaces
         List<Estoque> ObterProdutoPorIdProduto(int idProduto);
         Estoque ObterEstoquePorIdLojaEIdProduto(int idProduto, int idLoja);
         void AtualizarEstoquePorId(Estoque estoque);
-        Estoque ObterEstoquePorId(int idProduto);
-        void DeletarEstoquePorId(int idProduto);
+        Estoque ObterEstoquePorIdProduto(int idProduto);
+        void DeletarEstoquePorIdProduto(int idProduto);
     }
 }
