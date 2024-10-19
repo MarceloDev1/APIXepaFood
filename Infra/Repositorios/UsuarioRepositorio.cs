@@ -186,7 +186,6 @@ namespace Infra.Repositorios
                         command.Parameters.Add(new SqlParameter("@Telefone", usuario.Telefone));
                         command.Parameters.Add(new SqlParameter("@IdUsuario", usuario.IdUsuario));
 
-                        // Executa o comando SQL para atualizar o usuário
                         command.ExecuteNonQuery();
                     }
                 }
