@@ -39,15 +39,15 @@ namespace Domain.Servicos
             _estoqueRepositorio.AtualizarEstoquePorId(estoque);
         }
 
-        public Estoque ObterEstoquePorId(int idProduto)
+        public Estoque ObterEstoquePorIdProduto(int idProduto)
         {
             Estoque estoque = _estoqueRepositorio.ObterEstoqueIdProduto(idProduto);
             return estoque;
         }
 
-        public void DeletarEstoquePorId(int idProduto)
+        public void DeletarEstoquePorIdProduto(int idProduto)
         {
-            _estoqueRepositorio.DeletarEstoquePorId(idProduto);
+            _estoqueRepositorio.DeletarEstoquePorIdProduto(idProduto);
         }
     }
 }

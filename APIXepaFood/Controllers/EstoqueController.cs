@@ -59,17 +59,17 @@ namespace APIXepaFood.Controllers
         }
 
         [HttpDelete]
-        [Route("DeletarEstoquePorId/{idUsuario}")]
+        [Route("DeletarEstoquePorId/{idProduto}")]
         public IActionResult DeletarEstoquePorId(int idProduto)
         {
-            var estoqueExistente = _estoqueServico.ObterEstoquePorId(idProduto);
+            var estoqueExistente = _estoqueServico.ObterEstoquePorIdProduto(idProduto);
 
             if (estoqueExistente == null)
             {
                 return NotFound("Estoque não encontrado.");
             }
 
-            _estoqueServico.DeletarEstoquePorId(idProduto);
+            _estoqueServico.DeletarEstoquePorIdProduto(idProduto);
 
             return Ok("Estoque deletado com sucesso.");
         }
