@@ -10,5 +10,6 @@ namespace Domain.Interfaces
         Usuario ObterUsuarioPorId(int idUsuario);
         void AtualizarUsuarioPorId(Usuario novoUsuario);
         void DeletarUsuarioPorId(int idUsuario);
+        Usuario ObterUsuarioPorEmailSenha(string email, string senha);
     }
 }

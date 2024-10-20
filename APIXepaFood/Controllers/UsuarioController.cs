@@ -76,5 +76,21 @@ namespace APIXepaFood.Controllers
 
             return Ok("Usuário deletado com sucesso.");
         }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login(string email, string senha)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(senha))
+                return BadRequest("Email ou senha não podem estar vazios.");
+
+            var usuario = _usuarioServico.ObterUsuarioPorEmailSenha(email, senha);
+
+            if (usuario == null)
+                return BadRequest("Email ou senha inválidos.");
+
+            return Ok("Login efetuado com sucesso !");
+        }
+
     }
 }

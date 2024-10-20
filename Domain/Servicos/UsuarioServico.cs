@@ -41,5 +41,11 @@ namespace Domain.Servicos
         {
             _usuarioRepositorio.DeletarUsuarioPorId(idUsuario);
         }
+
+        public Usuario ObterUsuarioPorEmailSenha(string email, string senha)
+        {
+            var usuario = _usuarioRepositorio.ObterUsuarioPorEmailSenha(email, senha);
+            return usuario;
+        }
     }
 }
