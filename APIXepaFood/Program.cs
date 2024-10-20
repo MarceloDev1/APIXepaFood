@@ -10,7 +10,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
+builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+builder.Services.AddScoped<IProdutoServico, ProdutoServico>();
 
+builder.Services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
+builder.Services.AddScoped<IEstoqueServico, EstoqueServico>();
 builder.Services.AddScoped<ILojaRepositorio, LojaRepositorio>();
 builder.Services.AddScoped<ILojaServico, LojaServico>();
 
