@@ -18,7 +18,7 @@ namespace Infra.Repositorios
 
         public void CriarUsuario(Usuario usuario)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
@@ -43,7 +43,7 @@ namespace Infra.Repositorios
 
         public Usuario ObterUsuarioPorEmail(string email)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Usuarios WHERE Email = @Email;";
@@ -84,7 +84,7 @@ namespace Infra.Repositorios
 
         public List<Usuario> ObterTodosUsuarios()
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Usuarios;";
@@ -125,7 +125,7 @@ namespace Infra.Repositorios
 
         public Usuario ObterUsuarioPorId(int idUsuario)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Usuarios WHERE IdUsuario = @IdUsuario;";
@@ -166,7 +166,7 @@ namespace Infra.Repositorios
 
         public void AtualizarUsuarioPorId(Usuario usuario)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -199,7 +199,7 @@ namespace Infra.Repositorios
 
         public void DeletarUsuarioPorId(int idUsuario)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -224,7 +224,7 @@ namespace Infra.Repositorios
 
         public Usuario ObterUsuarioPorEmailSenha(string email, string senha)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Usuarios WHERE Email = @Email AND Senha = @Senha;";

@@ -79,12 +79,12 @@ namespace APIXepaFood.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(string email, string senha)
+        public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(senha))
+            if (string.IsNullOrEmpty(loginRequest.Email) || string.IsNullOrEmpty(loginRequest.Senha))
                 return BadRequest("Email ou senha não podem estar vazios.");
 
-            var usuario = _usuarioServico.ObterUsuarioPorEmailSenha(email, senha);
+            var usuario = _usuarioServico.ObterUsuarioPorEmailSenha(loginRequest.Email, loginRequest.Senha);
 
             if (usuario == null)
                 return BadRequest("Email ou senha inválidos.");
