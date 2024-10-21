@@ -16,7 +16,7 @@ namespace Infra.Repositorios
 
         public void InserirEstoque(Estoque estoque)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
@@ -37,7 +37,7 @@ namespace Infra.Repositorios
 
         public List<Estoque> ObterProdutoPorIdProduto(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Estoque WHERE IdProduto = @IdProduto;";
@@ -76,7 +76,7 @@ namespace Infra.Repositorios
 
         public List<Estoque> ObterProdutoPorIdLoja(int idLoja)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Estoque WHERE IdLoja = @IdLoja;";
@@ -115,7 +115,7 @@ namespace Infra.Repositorios
 
         public Estoque ObterEstoquePorIdLojaEIdProduto(int idProduto, int idLoja)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Estoque WHERE IdLoja = @IdLoja AND IdProduto = @IdProduto;";
@@ -154,7 +154,7 @@ namespace Infra.Repositorios
         }
         public Estoque ObterEstoqueIdProduto(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Estoque WHERE IdProduto = @IdProduto;";
@@ -192,7 +192,7 @@ namespace Infra.Repositorios
 
         public void AtualizarEstoquePorId(Estoque estoque)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -221,7 +221,7 @@ namespace Infra.Repositorios
 
         public void DeletarEstoquePorIdProduto(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringMarcelo");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try

@@ -7,12 +7,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTudo", policy =>
+    {
+        policy.AllowAnyOrigin()    // Permitir qualquer origem (domínios)
+              .AllowAnyMethod()    // Permitir qualquer método (GET, POST, etc.)
+              .AllowAnyHeader();   // Permitir qualquer cabeçalho
+    });
+});
 
+// Registre seus serviços
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
 builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
 builder.Services.AddScoped<IProdutoServico, ProdutoServico>();
-
 builder.Services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
 builder.Services.AddScoped<IEstoqueServico, EstoqueServico>();
 builder.Services.AddScoped<ILojaRepositorio, LojaRepositorio>();
@@ -30,6 +40,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Habilitar o CORS para todas as rotas
+app.UseCors("PermitirTudo");
 
 app.UseHttpsRedirection();
 
