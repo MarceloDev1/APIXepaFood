@@ -1,10 +1,11 @@
 ﻿using Domain.Entidades;
+using Domain.Requests;
 
 namespace Domain.Interfaces
 {
     public interface ILojaRepositorio
     {
-        void CriarLoja(Loja loja);
+        void CriarLoja(LojaRequest loja);
         Loja ObterLojaPorId(int idLoja);
         List<Loja> ObterTodasLojas();
         void DeletarLoja(int idLoja);

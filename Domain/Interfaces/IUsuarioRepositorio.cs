@@ -5,6 +5,7 @@ namespace Domain.Interfaces
     public interface IUsuarioRepositorio
     {
         void CriarUsuario(Usuario usuario);
+        int CriarUsuarioRetornaIdUsuario(Usuario usuario);
         Usuario ObterUsuarioPorEmail(string email);
         List<Usuario> ObterTodosUsuarios();
         Usuario ObterUsuarioPorId(int idUsuario);

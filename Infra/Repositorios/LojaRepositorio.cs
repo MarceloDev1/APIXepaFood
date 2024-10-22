@@ -1,5 +1,6 @@
 ﻿using Domain.Entidades;
 using Domain.Interfaces;
+using Domain.Requests;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -18,21 +19,22 @@ namespace Infra.Repositorios
             _configuration = configuration;
         }
 
-        public void CriarLoja(Loja loja)
+        public void CriarLoja(LojaRequest loja)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
 
-                var query = @"INSERT INTO Lojas (NomeLoja, Localizacao, Telefone)
-                        VALUES (@NomeLoja, @Localizacao, @Telefone);";
+                var query = @"INSERT INTO Lojas (NomeLoja, Localizacao, Telefone, IdUsuario)
+                        VALUES (@NomeLoja, @Localizacao, @Telefone, @IdUsuario);";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NomeLoja", loja.NomeLoja);
                     command.Parameters.AddWithValue("@Localizacao", loja.Localizacao);
                     command.Parameters.AddWithValue("@Telefone", loja.Telefone);
+                    command.Parameters.AddWithValue("@IdUsuario", loja.IdUsuario);
 
                     command.ExecuteNonQuery();
 
@@ -41,7 +43,7 @@ namespace Infra.Repositorios
         }
         public List<Loja> ObterTodasLojas()
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Lojas;";
@@ -79,7 +81,7 @@ namespace Infra.Repositorios
         }
         public Loja ObterLojaPorId(int idLoja)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Lojas WHERE IdLoja = @IdLoja;";
@@ -117,7 +119,7 @@ namespace Infra.Repositorios
         }
         public void AtualizarLoja(Loja novaLoja)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -146,7 +148,7 @@ namespace Infra.Repositorios
         }
         public void DeletarLoja(int idLoja)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringLucas");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try

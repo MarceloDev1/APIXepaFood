@@ -39,6 +39,32 @@ namespace Infra.Repositorios
                 }
             }
         }
+        public int CriarUsuarioRetornaIdUsuario(Usuario usuario)
+        {
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
+            using (SqlConnection connection = new SqlConnection(stringConexao))
+            {
+                connection.Open();
+
+                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, Localizacao, Telefone)
+                        VALUES (@Nome, @Email, @Senha, @Localizacao, @Telefone);
+                        SELECT SCOPE_IDENTITY();";  // Retorna o ID gerado";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Nome", usuario.Nome);
+                    command.Parameters.AddWithValue("@Email", usuario.Email);
+                    command.Parameters.AddWithValue("@Senha", usuario.Senha);
+                    command.Parameters.AddWithValue("@Localizacao", usuario.Localizacao);
+                    command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
+
+                    var idGerado = command.ExecuteScalar();
+
+                    return Convert.ToInt32(idGerado); // Converte para int e retorna
+
+                }
+            }
+        }
 
 
         public Usuario ObterUsuarioPorEmail(string email)

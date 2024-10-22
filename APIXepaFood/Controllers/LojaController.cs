@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces;
 using Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Requests;
 
 namespace APIXepaFood.Controllers
 {
@@ -22,6 +23,17 @@ namespace APIXepaFood.Controllers
                 return BadRequest("Dados inválidos para o cadastro.");
 
             _lojaServico.CriarLoja(novaLoja);
+            return Ok(new { mensagem = "Loja criada com sucesso!" });
+        }
+
+        [HttpPost]
+        [Route("CriarLojaEUsuario")]
+        public IActionResult CriarLojaEUsuario([FromBody] LojaEUsuarioRequest novaLoja)
+        {
+            if (novaLoja == null)
+                return BadRequest("Dados inválidos para o cadastro.");
+
+            _lojaServico.CriarLojaEUsuario(novaLoja);
             return Ok(new { mensagem = "Loja criada com sucesso!" });
         }
 
