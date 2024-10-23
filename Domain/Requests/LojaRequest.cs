@@ -9,7 +9,5 @@ namespace Domain.Requests
         public string NomeLoja { get; set; }
         [StringLength(255)]
         public string Localizacao { get; set; }
-        [StringLength(20)]
-        public string Telefone { get; set; }
     }
 }

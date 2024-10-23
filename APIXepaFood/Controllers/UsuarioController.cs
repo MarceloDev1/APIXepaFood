@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Entidades;
 using Domain.Interfaces;
+using Domain.Requests;
 
 namespace APIXepaFood.Controllers
 {
@@ -16,7 +17,7 @@ namespace APIXepaFood.Controllers
 
         [HttpPost]
         [Route("CriarUsuario")]
-        public IActionResult CriarUsuario([FromBody] Usuario novoUsuario)
+        public IActionResult CriarUsuario([FromBody] UsuarioRequest novoUsuario)
         {
             if (novoUsuario == null)
                 return BadRequest("Dados inválidos.");

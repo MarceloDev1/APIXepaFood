@@ -26,14 +26,13 @@ namespace Infra.Repositorios
             {
                 connection.Open();
 
-                var query = @"INSERT INTO Lojas (NomeLoja, Localizacao, Telefone, IdUsuario)
-                        VALUES (@NomeLoja, @Localizacao, @Telefone, @IdUsuario);";
+                var query = @"INSERT INTO Lojas (NomeLoja, Localizacao, IdUsuario)
+                        VALUES (@NomeLoja, @Localizacao, @IdUsuario);";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NomeLoja", loja.NomeLoja);
                     command.Parameters.AddWithValue("@Localizacao", loja.Localizacao);
-                    command.Parameters.AddWithValue("@Telefone", loja.Telefone);
                     command.Parameters.AddWithValue("@IdUsuario", loja.IdUsuario);
 
                     command.ExecuteNonQuery();

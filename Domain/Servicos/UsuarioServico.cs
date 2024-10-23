@@ -1,5 +1,6 @@
 ﻿using Domain.Entidades;
 using Domain.Interfaces;
+using Domain.Requests;
 
 namespace Domain.Servicos
 {
@@ -10,7 +11,7 @@ namespace Domain.Servicos
         {
             _usuarioRepositorio = usuarioRepositorio;
         }
-        public void CriarUsuario(Usuario usuario)
+        public void CriarUsuario(UsuarioRequest usuario)
         {
             _usuarioRepositorio.CriarUsuario(usuario);
         }

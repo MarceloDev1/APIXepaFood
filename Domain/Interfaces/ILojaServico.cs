@@ -5,7 +5,7 @@ namespace Domain.Interfaces
 {
     public interface ILojaServico
     {
-        void CriarLoja(Loja loja);
+        void CriarLoja(LojaRequest loja);
         void CriarLojaEUsuario(LojaEUsuarioRequest novaLoja);
         Loja ObterLojaPorId(int idLoja);
         List<Loja> ObterTodasLojas();

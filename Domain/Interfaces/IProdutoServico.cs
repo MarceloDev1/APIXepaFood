@@ -1,10 +1,11 @@
 ﻿using Domain.Entidades;
+using Domain.Requests;
 
 namespace Domain.Interfaces
 {
     public interface IProdutoServico
     {
-        void CriarProduto(Produto produto);
+        void CriarProduto(ProdutoRequest produto);
         Produto ObterProdutoPorNome(string nome);
         List<Produto> ObterTodosProdutos();
         Produto ObterProdutoPorId(int idProduto);

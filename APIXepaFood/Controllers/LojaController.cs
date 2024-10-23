@@ -17,7 +17,7 @@ namespace APIXepaFood.Controllers
 
         [HttpPost]
         [Route("CriarLoja")]
-        public IActionResult CriarLoja([FromBody] Loja novaLoja)
+        public IActionResult CriarLoja([FromBody] LojaRequest novaLoja)
         {
             if (novaLoja == null)
                 return BadRequest("Dados inválidos para o cadastro.");

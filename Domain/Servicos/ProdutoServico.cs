@@ -1,5 +1,6 @@
 ﻿using Domain.Entidades;
 using Domain.Interfaces;
+using Domain.Requests;
 
 namespace Domain.Servicos
 {
@@ -10,7 +11,7 @@ namespace Domain.Servicos
         {
             _produtoRepositorio = ProdutoRepositorio;
         }
-        public void CriarProduto(Produto produto)
+        public void CriarProduto(ProdutoRequest produto)
         {
             _produtoRepositorio.CriarProduto(produto);
         }

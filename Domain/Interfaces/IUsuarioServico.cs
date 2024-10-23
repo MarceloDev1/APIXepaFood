@@ -1,10 +1,11 @@
 ﻿using Domain.Entidades;
+using Domain.Requests;
 
 namespace Domain.Interfaces
 {
     public interface IUsuarioServico
     {
-        void CriarUsuario(Usuario usuario);
+        void CriarUsuario(UsuarioRequest usuario);
         Usuario ObterUsuarioPorEmail(string email);
         List<Usuario> ObterTodosUsuarios();
         Usuario ObterUsuarioPorId(int idUsuario);

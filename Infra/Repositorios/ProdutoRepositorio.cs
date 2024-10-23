@@ -4,6 +4,7 @@ using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Domain.Requests;
 
 namespace Infra.Repositorios
 {
@@ -14,7 +15,7 @@ namespace Infra.Repositorios
         {
             _configuration = configuration;
         }
-        public void CriarProduto(Produto produto)
+        public void CriarProduto(ProdutoRequest produto)
         {
             var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
             using (SqlConnection connection = new SqlConnection(stringConexao))

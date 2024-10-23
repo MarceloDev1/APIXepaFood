@@ -13,19 +13,20 @@ namespace Domain.Servicos
             _lojaRepositorio = lojaRepositorio;
             _usuarioRepositorio = usuarioRepositorio;
         }
-        public void CriarLoja(Loja loja)
+        public void CriarLoja(LojaRequest loja)
         {
-            //_lojaRepositorio.CriarLoja(loja); 
+            _lojaRepositorio.CriarLoja(loja);
         }
         public void CriarLojaEUsuario(LojaEUsuarioRequest novaLoja)
         {
-            Usuario usuario = new Usuario
+            UsuarioRequest usuario = new UsuarioRequest
             {
                 Nome = novaLoja.Nome,
                 Email = novaLoja.Email,
                 Senha = novaLoja.Senha,
                 Telefone = novaLoja.Telefone,
-                Localizacao = novaLoja.LocalizacaoUsuario
+                Localizacao = novaLoja.LocalizacaoUsuario,
+                Feirante = novaLoja.Feirante
             };
 
             var idUsuario = _usuarioRepositorio.CriarUsuarioRetornaIdUsuario(usuario);
@@ -34,7 +35,6 @@ namespace Domain.Servicos
             {
                 NomeLoja = novaLoja.NomeLoja,
                 Localizacao = novaLoja.LocalizacaoLoja,
-                Telefone = novaLoja.Telefone,
                 IdUsuario = idUsuario
             };
             _lojaRepositorio.CriarLoja(loja);

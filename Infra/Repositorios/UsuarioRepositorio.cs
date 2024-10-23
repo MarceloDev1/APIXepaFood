@@ -4,6 +4,7 @@ using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Domain.Requests;
 
 namespace Infra.Repositorios
 {
@@ -16,15 +17,15 @@ namespace Infra.Repositorios
             _configuration = configuration;
         }
 
-        public void CriarUsuario(Usuario usuario)
+        public void CriarUsuario(UsuarioRequest usuario)
         {
             var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
 
-                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, Localizacao, Telefone)
-                        VALUES (@Nome, @Email, @Senha, @Localizacao, @Telefone);";
+                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, Localizacao, Telefone, Feirante)
+                        VALUES (@Nome, @Email, @Senha, @Localizacao, @Telefone, @Feirante);";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -33,21 +34,22 @@ namespace Infra.Repositorios
                     command.Parameters.AddWithValue("@Senha", usuario.Senha);
                     command.Parameters.AddWithValue("@Localizacao", usuario.Localizacao);
                     command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
+                    command.Parameters.AddWithValue("@Feirante", usuario.Feirante);
 
                     command.ExecuteNonQuery();
 
                 }
             }
         }
-        public int CriarUsuarioRetornaIdUsuario(Usuario usuario)
+        public int CriarUsuarioRetornaIdUsuario(UsuarioRequest usuario)
         {
             var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
 
-                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, Localizacao, Telefone)
-                        VALUES (@Nome, @Email, @Senha, @Localizacao, @Telefone);
+                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, Localizacao, Telefone, Feirante)
+                        VALUES (@Nome, @Email, @Senha, @Localizacao, @Telefone, @Feirante);
                         SELECT SCOPE_IDENTITY();";  // Retorna o ID gerado";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -57,6 +59,7 @@ namespace Infra.Repositorios
                     command.Parameters.AddWithValue("@Senha", usuario.Senha);
                     command.Parameters.AddWithValue("@Localizacao", usuario.Localizacao);
                     command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
+                    command.Parameters.AddWithValue("@Feirante", usuario.Feirante);
 
                     var idGerado = command.ExecuteScalar();
 
