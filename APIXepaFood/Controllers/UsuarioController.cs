@@ -90,8 +90,11 @@ namespace APIXepaFood.Controllers
             if (usuario == null)
                 return BadRequest("Email ou senha inválidos.");
 
-            return Ok("Login efetuado com sucesso !");
+            return Ok(new
+            {
+                Message = "Login efetuado com sucesso!",
+                Usuario = usuario
+            });
         }
-
     }
 }

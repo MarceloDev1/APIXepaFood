@@ -56,6 +56,14 @@ namespace APIXepaFood.Controllers
             return NotFound("Loja não encontrada");
         }
 
+        [HttpGet]
+        [Route("RetornarLojaPorIdUsuario")]
+        public List<Loja> RetornarLojaPorIdUsuario(int idUsuario)
+        {
+            var lojas = _lojaServico.ObterLojaPorIdUsuario(idUsuario);
+            return lojas;
+        }
+
         [HttpPost]
         [Route("AtualizarLoja")]
         public IActionResult AtualizarLoja([FromBody] Loja loja)
@@ -64,7 +72,7 @@ namespace APIXepaFood.Controllers
             if (lojaExistente == null)
                 return NotFound("Loja não encontrada! ");
 
-            _lojaServico.AtualizarLoja(lojaExistente);
+            _lojaServico.AtualizarLoja(loja);
             return Ok(new { mensagem = "Loja atualizada com sucesso!" });
         }
 

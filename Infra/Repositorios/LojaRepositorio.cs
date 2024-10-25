@@ -62,7 +62,6 @@ namespace Infra.Repositorios
                                     IdLoja = reader.GetInt32(reader.GetOrdinal("IdLoja")),
                                     NomeLoja = reader.GetString(reader.GetOrdinal("NomeLoja")),
                                     Localizacao = reader.GetString(reader.GetOrdinal("Localizacao")),
-                                    Telefone = reader.GetString(reader.GetOrdinal("Telefone"))
                                 };
 
                                 lojas.Add(loja);
@@ -100,13 +99,52 @@ namespace Infra.Repositorios
                                     IdLoja = reader.GetInt32(reader.GetOrdinal("IdLoja")),
                                     NomeLoja = reader.GetString(reader.GetOrdinal("NomeLoja")),
                                     Localizacao = reader.GetString(reader.GetOrdinal("Localizacao")),
-                                    Telefone = reader.GetString(reader.GetOrdinal("Telefone"))
+                                    IdUsuario = reader.GetInt32(reader.GetOrdinal("IdUsuario"))
                                 };
                             }
                             else
                             {
                                 return null;
                             }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao obter a loja", ex);
+                    }
+                }
+            }
+        }
+        public List<Loja> ObterLojaPorIdUsuario(int idUsuario)
+        {
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
+            using (SqlConnection connection = new SqlConnection(stringConexao))
+            {
+                var sql = "SELECT * FROM Lojas WHERE IdUsuario = @IdUsuario;";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    try
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            var lojas = new List<Loja>();
+
+                            while (reader.Read())
+                            {
+                                var loja = new Loja
+                                {
+                                    IdLoja = reader.GetInt32(reader.GetOrdinal("IdLoja")),
+                                    NomeLoja = reader.GetString(reader.GetOrdinal("NomeLoja")),
+                                    Localizacao = reader.GetString(reader.GetOrdinal("Localizacao")),
+                                    IdUsuario = reader.GetInt32(reader.GetOrdinal("IdUsuario"))
+                                };
+
+                                lojas.Add(loja);
+                            }
+
+                            return lojas;
                         }
                     }
                     catch (Exception ex)
@@ -126,14 +164,13 @@ namespace Infra.Repositorios
                     connection.Open();
 
                     var sql = @"UPDATE Lojas
-                        SET NomeLoja = @NomeLoja, Localizacao = @Localizacao, Telefone = @Telefone
+                        SET NomeLoja = @NomeLoja, Localizacao = @Localizacao
                         WHERE IdLoja = @IdLoja;";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.Add(new SqlParameter("@NomeLoja", novaLoja.NomeLoja));
                         command.Parameters.Add(new SqlParameter("@Localizacao", novaLoja.Localizacao));
-                        command.Parameters.Add(new SqlParameter("@Telefone", novaLoja.Telefone));
                         command.Parameters.Add(new SqlParameter("@IdLoja", novaLoja.IdLoja));
 
                         command.ExecuteNonQuery();
@@ -168,7 +205,6 @@ namespace Infra.Repositorios
                     throw new Exception("Erro ao deletar a loja", ex);
                 }
             }
-        }
-
+        }        
     }
 }

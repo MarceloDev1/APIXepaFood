@@ -44,6 +44,12 @@ namespace Domain.Servicos
             Loja loja = _lojaRepositorio.ObterLojaPorId(idLoja);
             return loja;
         }
+
+        public List<Loja> ObterLojaPorIdUsuario(int idUsuario)
+        {
+            List<Loja> loja = _lojaRepositorio.ObterLojaPorIdUsuario(idUsuario);
+            return loja;
+        }
         public List<Loja> ObterTodasLojas()
         {
             List<Loja> listaDeLojas = _lojaRepositorio.ObterTodasLojas();

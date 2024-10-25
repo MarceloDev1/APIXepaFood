@@ -276,7 +276,8 @@ namespace Infra.Repositorios
                                     Email = reader.GetString(reader.GetOrdinal("Email")),
                                     Senha = reader.GetString(reader.GetOrdinal("Senha")),
                                     Localizacao = reader.GetString(reader.GetOrdinal("Localizacao")),
-                                    Telefone = reader.GetString(reader.GetOrdinal("Telefone"))
+                                    Telefone = reader.GetString(reader.GetOrdinal("Telefone")),
+                                    Feirante = reader.GetBoolean(reader.GetOrdinal("Feirante"))
                                 };
                             }
                             else
