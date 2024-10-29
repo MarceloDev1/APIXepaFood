@@ -10,23 +10,26 @@ namespace APIXepaFood.Controllers
     public class ProdutoController : Controller
     {
         private readonly IProdutoServico _produtoServico;
-        public ProdutoController(IProdutoServico produtoServico)
+        private readonly IEstoqueServico _estoqueServico;
+        public ProdutoController(IProdutoServico produtoServico, IEstoqueServico estoqueServico)
         {
             _produtoServico = produtoServico;
+            _estoqueServico = estoqueServico;
         }
 
         [HttpPost]
         [Route("CriarProduto")]
         public IActionResult CriarProduto([FromBody] ProdutoRequest novoProduto)
         {
-            //if (novoProduto == null)
-            //    return BadRequest("Dados inválidos.");
+            var idProduto = _produtoServico.CriarProduto(novoProduto);
+            Estoque estoque = new()
+            {
+                IdProduto = idProduto,
+                IdLoja = novoProduto.IdLoja,
+                Quantidade = novoProduto.Quantidade
+            };
+            _estoqueServico.InserirEstoque(estoque);
 
-            //var produtoExistente = _produtoRepositorio.ObterProdutoPorEmail(novoProduto.Email);
-            //if (produtoExistente != null)
-            //    return Conflict("Este produto já existe!");
-
-            _produtoServico.CriarProduto(novoProduto);
             return Ok(new { mensagem = "Produto criado com sucesso!", produto = novoProduto });
         }
 
@@ -35,6 +38,14 @@ namespace APIXepaFood.Controllers
         public List<Produto> RetornarProdutos()
         {
             var produtos = _produtoServico.ObterTodosProdutos();
+            return produtos;
+        }
+
+        [HttpGet]
+        [Route("RetornarProdutosPorIdLoja")]
+        public List<Produto> RetornarProdutosPorIdLoja(int idLoja)
+        {
+            var produtos = _produtoServico.ObterProdutoIdLoja(idLoja);
             return produtos;
         }
 

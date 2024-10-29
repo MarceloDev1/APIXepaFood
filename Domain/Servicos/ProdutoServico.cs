@@ -11,9 +11,9 @@ namespace Domain.Servicos
         {
             _produtoRepositorio = ProdutoRepositorio;
         }
-        public void CriarProduto(ProdutoRequest produto)
+        public int CriarProduto(ProdutoRequest produto)
         {
-            _produtoRepositorio.CriarProduto(produto);
+            return _produtoRepositorio.CriarProduto(produto);
         }
 
         public Produto ObterProdutoPorNome(string nome)
@@ -30,6 +30,12 @@ namespace Domain.Servicos
         public Produto ObterProdutoPorId(int idProduto)
         {
             Produto produto = _produtoRepositorio.ObterProdutoPorId(idProduto);
+            return produto;
+        }
+
+        public List<Produto> ObterProdutoIdLoja(int idLoja)
+        {
+            List<Produto> produto = _produtoRepositorio.ObterProdutoIdLoja(idLoja);
             return produto;
         }
 

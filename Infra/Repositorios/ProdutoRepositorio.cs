@@ -15,15 +15,16 @@ namespace Infra.Repositorios
         {
             _configuration = configuration;
         }
-        public void CriarProduto(ProdutoRequest produto)
+        public int CriarProduto(ProdutoRequest produto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
 
                 var sql = @"INSERT INTO Produtos (NomeProduto, Preco, Descricao)
-                 VALUES (@NomeProduto, @Preco, @Descricao);";
+                 VALUES (@NomeProduto, @Preco, @Descricao);
+                 SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -31,17 +32,20 @@ namespace Infra.Repositorios
                     command.Parameters.AddWithValue("@Preco", produto.Preco);
                     command.Parameters.AddWithValue("@Descricao", produto.Descricao);
 
-                    command.ExecuteNonQuery();
+                    var idGerado = command.ExecuteScalar();
 
+                    return Convert.ToInt32(idGerado); // Converte para int e retorna
                 }
             }
         }
         public Produto ObterProdutoPorId(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
-                var sql = "SELECT * FROM Produtos WHERE IdProduto = @IdProduto;";
+                var sql = "SELECT p.*, e.Quantidade FROM Produtos p " +
+                    "LEFT JOIN Estoque e ON p.IdProduto = e.IdProduto " +
+                    "WHERE p.IdProduto = @IdProduto;";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@IdProduto", idProduto);
@@ -58,7 +62,8 @@ namespace Infra.Repositorios
                                     IdProduto = reader.GetInt32(reader.GetOrdinal("IdProduto")),
                                     NomeProduto = reader.GetString(reader.GetOrdinal("NomeProduto")),
                                     Preco = reader.GetDecimal(reader.GetOrdinal("Preco")),
-                                    Descricao = reader.GetString(reader.GetOrdinal("Descricao"))
+                                    Descricao = reader.GetString(reader.GetOrdinal("Descricao")),
+                                    Quantidade = reader.GetInt32(reader.GetOrdinal("Quantidade"))
                                 };
                             }
                             else
@@ -75,9 +80,52 @@ namespace Infra.Repositorios
             }
         }
 
+        public List<Produto> ObterProdutoIdLoja(int idLoja)
+        {
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
+            using (SqlConnection connection = new SqlConnection(stringConexao))
+            {
+                var sql = "SELECT p.*, e.Quantidade FROM Produtos p " +
+                          "LEFT JOIN Estoque e ON p.IdProduto = e.IdProduto " +
+                          "WHERE e.IdLoja = @IdLoja;";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@IdLoja", idLoja);
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            var produtos = new List<Produto>();
+
+                            while (reader.Read())
+                            {
+                                var produto = new Produto
+                                {
+                                    IdProduto = reader.GetInt32(reader.GetOrdinal("IdProduto")),
+                                    NomeProduto = reader.GetString(reader.GetOrdinal("NomeProduto")),
+                                    Preco = reader.GetDecimal(reader.GetOrdinal("Preco")),
+                                    Descricao = reader.GetString(reader.GetOrdinal("Descricao")),
+                                    Quantidade = reader.GetInt32(reader.GetOrdinal("Quantidade"))
+                                };
+
+                                produtos.Add(produto);
+                            }
+                            return produtos;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao obter usuário por id", ex);
+                    }
+                }
+            }
+        }
+
         public Produto ObterProdutoPorNome(string nome)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Produtos WHERE NomeProduto = @NomeProduto;";
@@ -116,7 +164,7 @@ namespace Infra.Repositorios
 
         public List<Produto> ObterTodosProdutos()
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Produtos;";
@@ -155,7 +203,7 @@ namespace Infra.Repositorios
 
         public void AtualizarProdutoPorId(Produto novoProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -186,7 +234,7 @@ namespace Infra.Repositorios
 
         public void DeletarProdutoPorId(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -207,7 +255,6 @@ namespace Infra.Repositorios
                     throw new Exception("Erro ao deletar o produto", ex);
                 }
             }
-        }
-
+        }        
     }
 }
