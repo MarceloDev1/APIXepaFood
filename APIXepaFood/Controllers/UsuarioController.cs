@@ -2,6 +2,11 @@
 using Domain.Entidades;
 using Domain.Interfaces;
 using Domain.Requests;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIXepaFood.Controllers
 {
@@ -10,9 +15,11 @@ namespace APIXepaFood.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioServico _usuarioServico;
-        public UsuarioController(IUsuarioServico usuarioServico)
+        private readonly IConfiguration _configuration;
+        public UsuarioController(IUsuarioServico usuarioServico, IConfiguration configuration)
         {
             _usuarioServico = usuarioServico;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -30,6 +37,7 @@ namespace APIXepaFood.Controllers
             return Ok(new { mensagem = "Usuário criado com sucesso!", usuario = novoUsuario });
         }
 
+        //TODO: Verificar porque precisa desse endpoint - vulnerabilidade.
         [HttpGet]
         [Route("RetornarUsuarios")]
         public List<Usuario> RetornarUsuarios()
@@ -38,6 +46,7 @@ namespace APIXepaFood.Controllers
             return usuarios;
         }
 
+        //TODO: Verificar porque precisa desse endpoint - vulnerabilidade.
         [HttpGet]
         [Route("RetornarUsuariosPorId")]
         public Usuario RetornarUsuariosPorId(int idUsuario)
@@ -46,6 +55,7 @@ namespace APIXepaFood.Controllers
             return usuario;
         }
 
+        [Authorize]
         [HttpPut]
         [Route("AtualizarUsuarioPorId")]
         public IActionResult AtualizarUsuarioPorId([FromBody] Usuario novoUsuario)
@@ -62,6 +72,7 @@ namespace APIXepaFood.Controllers
             return Ok("Usuário atualizado com sucesso.");
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("DeletarUsuarioPorId/{idUsuario}")]
         public IActionResult DeletarUsuarioPorId(int idUsuario)
@@ -90,11 +101,29 @@ namespace APIXepaFood.Controllers
             if (usuario == null)
                 return BadRequest("Email ou senha inválidos.");
 
-            return Ok(new
+            var token = GenerateToken(loginRequest.Email);
+            return Ok(new { token });
+        }
+
+        private string GenerateToken(string userEmail)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
             {
-                Message = "Login efetuado com sucesso!",
-                Usuario = usuario
-            });
+                new Claim(JwtRegisteredClaimNames.Email, userEmail),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JwtSettings:Issuer"],
+                audience: _configuration["JwtSettings:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(double.Parse(_configuration["JwtSettings:TokenExpiryHours"])),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

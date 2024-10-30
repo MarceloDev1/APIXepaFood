@@ -2,6 +2,7 @@
 using Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Requests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIXepaFood.Controllers
 {
@@ -15,6 +16,7 @@ namespace APIXepaFood.Controllers
             _lojaServico = lojaServico;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("CriarLoja")]
         public IActionResult CriarLoja([FromBody] LojaRequest novaLoja)
@@ -26,6 +28,7 @@ namespace APIXepaFood.Controllers
             return Ok(new { mensagem = "Loja criada com sucesso!" });
         }
 
+        [Authorize]
         [HttpPost]
         [Route("CriarLojaEUsuario")]
         public IActionResult CriarLojaEUsuario([FromBody] LojaEUsuarioRequest novaLoja)
@@ -37,6 +40,7 @@ namespace APIXepaFood.Controllers
             return Ok(new { mensagem = "Loja criada com sucesso!" });
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarLojas")]
         public List<Loja> RetornarLojas()
@@ -45,6 +49,7 @@ namespace APIXepaFood.Controllers
             return lojas;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarLojaPorId")]
         public IActionResult RetornarLojaPorId(int idLoja)
@@ -56,6 +61,7 @@ namespace APIXepaFood.Controllers
             return NotFound("Loja não encontrada");
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarLojaPorIdUsuario")]
         public List<Loja> RetornarLojaPorIdUsuario(int idUsuario)
@@ -64,6 +70,7 @@ namespace APIXepaFood.Controllers
             return lojas;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("AtualizarLoja")]
         public IActionResult AtualizarLoja([FromBody] Loja loja)
@@ -76,6 +83,7 @@ namespace APIXepaFood.Controllers
             return Ok(new { mensagem = "Loja atualizada com sucesso!" });
         }
 
+        [Authorize]
         [HttpPost]
         [Route("ExcluirLoja")]
         public IActionResult DeletarLoja(int idLoja)

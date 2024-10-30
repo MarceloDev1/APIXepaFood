@@ -1,6 +1,7 @@
 ﻿using Domain.Entidades;
 using Domain.Interfaces;
 using Domain.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIXepaFood.Controllers
@@ -17,6 +18,7 @@ namespace APIXepaFood.Controllers
             _estoqueServico = estoqueServico;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("CriarProduto")]
         public IActionResult CriarProduto([FromBody] ProdutoRequest novoProduto)
@@ -33,6 +35,7 @@ namespace APIXepaFood.Controllers
             return Ok(new { mensagem = "Produto criado com sucesso!", produto = novoProduto });
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarProdutos")]
         public List<Produto> RetornarProdutos()
@@ -41,6 +44,7 @@ namespace APIXepaFood.Controllers
             return produtos;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarProdutosPorIdLoja")]
         public List<Produto> RetornarProdutosPorIdLoja(int idLoja)
@@ -49,6 +53,7 @@ namespace APIXepaFood.Controllers
             return produtos;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarProdutosPorId")]
         public Produto RetornarProdutosPorId(int idProduto)
@@ -57,6 +62,7 @@ namespace APIXepaFood.Controllers
             return produto;
         }
 
+        [Authorize]
         [HttpPut]
         [Route("AtualizarProdutoPorId")]
         public IActionResult AtualizarProdutoPorId([FromBody] Produto novoProduto)
@@ -73,6 +79,7 @@ namespace APIXepaFood.Controllers
             return Ok("Usuário atualizado com sucesso.");
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("DeletarProdutoPorId/{idProduto}")]
         public IActionResult DeletarProdutoPorId(int idProduto)

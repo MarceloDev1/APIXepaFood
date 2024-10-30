@@ -1,6 +1,7 @@
 ﻿using Domain.Entidades;
 using Domain.Interfaces;
 using Domain.Servicos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIXepaFood.Controllers
@@ -15,6 +16,7 @@ namespace APIXepaFood.Controllers
             _estoqueServico = estoqueServico;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("InserirEstoque")]
         public IActionResult InserirEstoque([FromBody] Estoque estoque)
@@ -26,6 +28,7 @@ namespace APIXepaFood.Controllers
             return Ok(new { mensagem = "Estoque inserido com sucesso!", usuario = estoque });
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarEstoquePorIdProduto/{idProduto}")]
         public List<Estoque> RetornarEstoquePorIdProduto(int idProduto)
@@ -34,6 +37,7 @@ namespace APIXepaFood.Controllers
             return listaEstoque;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetornarEstoquePorIdLoja/{idLoja}")]
         public List<Estoque> RetornarEstoquePorIdLoja(int idLoja)
@@ -42,6 +46,7 @@ namespace APIXepaFood.Controllers
             return listaUsuarios;
         }
 
+        [Authorize]
         [HttpPut]
         [Route("AtualizarEstoquePorId")]
         public IActionResult AtualizarUsuarioPorId([FromBody] Estoque estoque)
@@ -58,6 +63,7 @@ namespace APIXepaFood.Controllers
             return Ok("Estoque atualizado com sucesso.");
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("DeletarEstoquePorId/{idProduto}")]
         public IActionResult DeletarEstoquePorId(int idProduto)
