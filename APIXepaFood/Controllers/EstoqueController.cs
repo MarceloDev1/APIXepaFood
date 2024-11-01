@@ -42,6 +42,14 @@ namespace APIXepaFood.Controllers
             return listaUsuarios;
         }
 
+        [HttpGet]
+        [Route("RetornarEstoque")]
+        public List<InformacoesLojaProduto> RetornarEstoque([FromQuery] string nomeProduto = null, string localizacao = null)
+        {
+            var listaUsuarios = _estoqueServico.ObterEstoque(nomeProduto, localizacao);
+            return listaUsuarios;
+        }
+
         [HttpPut]
         [Route("AtualizarEstoquePorId")]
         public IActionResult AtualizarUsuarioPorId([FromBody] Estoque estoque)

@@ -242,6 +242,72 @@ namespace Infra.Repositorios
                     throw new Exception("Erro ao deletar o estoque", ex);
                 }
             }
-        }        
+        }
+
+        public List<InformacoesLojaProduto> ObterEstoque(string nomeProduto, string localizacao)
+        {
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
+            using (SqlConnection connection = new SqlConnection(stringConexao))
+            {
+                var sql = "SELECT p.NomeProduto, p.Preco, p.Descricao DescricaoProduto, l.NomeLoja, " +
+                    "l.Localizacao LocalizacaoLoja, e.Quantidade " +
+                    "FROM Produtos p " +
+                    "LEFT JOIN Estoque e ON p.IdProduto = e.IdProduto " +
+                    "LEFT JOIN Lojas l ON e.IdLoja = l.IdLoja " +
+                    "WHERE 1=1 " +
+                    "AND e.Quantidade > 0 ";
+
+                if (!string.IsNullOrEmpty(nomeProduto))
+                {
+                    sql += " AND p.NomeProduto = @NomeProduto";
+                }
+
+                if (!string.IsNullOrEmpty(localizacao))
+                {
+                    sql += " AND l.Localizacao = @Localizacao";
+                }
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    if (!string.IsNullOrEmpty(nomeProduto))
+                    {
+                        command.Parameters.AddWithValue("@NomeProduto", nomeProduto);
+                    }
+
+                    if (!string.IsNullOrEmpty(localizacao))
+                    {
+                        command.Parameters.AddWithValue("@Localizacao", localizacao);
+                    }
+
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            var listaInformacoes = new List<InformacoesLojaProduto>();
+                            while (reader.Read())
+                            {
+                                var item = new InformacoesLojaProduto
+                                {
+                                    Quantidade = reader.IsDBNull(reader.GetOrdinal("Quantidade")) ? 0 : reader.GetInt32(reader.GetOrdinal("Quantidade")),
+                                    NomeProduto = reader.IsDBNull(reader.GetOrdinal("NomeProduto")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeProduto")),
+                                    DescricaoProduto = reader.IsDBNull(reader.GetOrdinal("DescricaoProduto")) ? string.Empty : reader.GetString(reader.GetOrdinal("DescricaoProduto")),
+                                    Preco = reader.IsDBNull(reader.GetOrdinal("Preco")) ? 0m : reader.GetDecimal(reader.GetOrdinal("Preco")),
+                                    NomeLoja = reader.IsDBNull(reader.GetOrdinal("NomeLoja")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeLoja")),
+                                    LocalizacaoLoja = reader.IsDBNull(reader.GetOrdinal("LocalizacaoLoja")) ? string.Empty : reader.GetString(reader.GetOrdinal("LocalizacaoLoja"))
+                                };
+                                listaInformacoes.Add(item);
+                            }
+                            return listaInformacoes;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao obter quantidade de estoque por idLoja.", ex);
+                    }
+                }
+            }
+        }
     }
 }

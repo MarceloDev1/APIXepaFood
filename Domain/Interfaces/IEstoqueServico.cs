@@ -11,5 +11,6 @@ namespace Domain.Interfaces
         void AtualizarEstoquePorId(Estoque estoque);
         Estoque ObterEstoquePorIdProduto(int idProduto);
         void DeletarEstoquePorIdProduto(int idProduto);
+        List<InformacoesLojaProduto> ObterEstoque(string nomeProduto, string localizacao);
     }
 }

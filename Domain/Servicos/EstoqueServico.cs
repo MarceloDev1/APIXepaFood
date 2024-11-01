@@ -49,5 +49,12 @@ namespace Domain.Servicos
         {
             _estoqueRepositorio.DeletarEstoquePorIdProduto(idProduto);
         }
+
+        public List<InformacoesLojaProduto> ObterEstoque(string nomeProduto, string localizacao)
+        {
+           var lista = new List<InformacoesLojaProduto>();
+            lista = _estoqueRepositorio.ObterEstoque(nomeProduto, localizacao);
+            return lista;
+        }
     }
 }
