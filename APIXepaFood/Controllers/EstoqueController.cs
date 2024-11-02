@@ -10,20 +10,45 @@ namespace APIXepaFood.Controllers
     public class EstoqueController : ControllerBase
     {
         private readonly IEstoqueServico _estoqueServico;
-        public EstoqueController(IEstoqueServico estoqueServico)
+        private readonly LogMongoService _logMongoService;
+        public EstoqueController(IEstoqueServico estoqueServico, LogMongoService logMongoService)
         {
             _estoqueServico = estoqueServico;
+            _logMongoService = logMongoService;
         }
 
         [HttpPost]
         [Route("InserirEstoque")]
         public IActionResult InserirEstoque([FromBody] Estoque estoque)
         {
-            if (estoque == null)
-                return BadRequest("Dados inválidos.");
+            try
+            {
+                if (estoque == null)
+                    return BadRequest("Dados inválidos.");
 
-            _estoqueServico.InserirEstoque(estoque);
-            return Ok(new { mensagem = "Estoque inserido com sucesso!", usuario = estoque });
+                _estoqueServico.InserirEstoque(estoque);
+
+                _logMongoService.LogAsync(new LogMongo
+                {
+                    Level = "Info",
+                    Message = $"Estoque inserido: Loja: {estoque.IdLoja}, Produto: {estoque.IdProduto}, Quatidade: {estoque.Quantidade}",
+                    Source = nameof(InserirEstoque),
+                    StackTrace = null
+                });
+
+                return Ok(new { mensagem = "Estoque inserido com sucesso!", usuario = estoque });
+            }
+            catch (Exception ex)
+            {
+                _logMongoService.LogAsync(new LogMongo
+                {
+                    Level = "Info",
+                    Message = ex.Message,
+                    Source = nameof(InserirEstoque),
+                    StackTrace = ex.StackTrace
+                });
+                return StatusCode(500, "Erro ao adicionar estoque");
+            }
         }
 
         [HttpGet]
@@ -46,32 +71,77 @@ namespace APIXepaFood.Controllers
         [Route("AtualizarEstoquePorId")]
         public IActionResult AtualizarUsuarioPorId([FromBody] Estoque estoque)
         {
-            var estoqueExistente = _estoqueServico.ObterEstoquePorIdLojaEIdProduto(estoque.IdProduto, estoque.IdLoja);
-
-            if (estoqueExistente == null)
+            try
             {
-                return NotFound("Estoque não encontrado.");
+
+                var estoqueExistente = _estoqueServico.ObterEstoquePorIdLojaEIdProduto(estoque.IdProduto, estoque.IdLoja);
+
+                if (estoqueExistente == null)
+                {
+                    return NotFound("Estoque não encontrado.");
+                }
+
+                _estoqueServico.AtualizarEstoquePorId(estoque);
+
+                _logMongoService.LogAsync(new LogMongo
+                {
+                    Level = "Info",
+                    Message = $"Estoque Atualizado: Loja: {estoque.IdLoja}, Produto: {estoque.IdProduto}, Quatidade: {estoque.Quantidade}",
+                    Source = nameof(AtualizarUsuarioPorId),
+                    StackTrace = null
+                });
+
+                return Ok("Estoque atualizado com sucesso.");
             }
-
-            _estoqueServico.AtualizarEstoquePorId(estoque);
-
-            return Ok("Estoque atualizado com sucesso.");
+            catch (Exception ex)
+            {
+                _logMongoService.LogAsync(new LogMongo
+                {
+                    Level = "Info",
+                    Message = ex.Message,
+                    Source = nameof(AtualizarUsuarioPorId),
+                    StackTrace = ex.StackTrace
+                });
+                return StatusCode(500, "Erro ao atualizar estoque");
+            }
         }
 
         [HttpDelete]
         [Route("DeletarEstoquePorId/{idProduto}")]
         public IActionResult DeletarEstoquePorId(int idProduto)
         {
-            var estoqueExistente = _estoqueServico.ObterEstoquePorIdProduto(idProduto);
-
-            if (estoqueExistente == null)
+            try
             {
-                return NotFound("Estoque não encontrado.");
+                var estoqueExistente = _estoqueServico.ObterEstoquePorIdProduto(idProduto);
+
+                if (estoqueExistente == null)
+                {
+                    return NotFound("Estoque não encontrado.");
+                }
+
+                _estoqueServico.DeletarEstoquePorIdProduto(idProduto);
+
+                _logMongoService.LogAsync(new LogMongo
+                {
+                    Level = "Info",
+                    Message = $"Estoque excluído: Loja: {estoqueExistente.IdLoja}, Produto: {estoqueExistente.IdProduto}, Quatidade: {estoqueExistente.Quantidade}",
+                    Source = nameof(DeletarEstoquePorId),
+                    StackTrace = null
+                });
+
+                return Ok("Estoque deletado com sucesso.");
             }
-
-            _estoqueServico.DeletarEstoquePorIdProduto(idProduto);
-
-            return Ok("Estoque deletado com sucesso.");
+            catch (Exception ex)
+            {
+                _logMongoService.LogAsync(new LogMongo
+                {
+                    Level = "Info",
+                    Message = ex.Message,
+                    Source = nameof(DeletarEstoquePorId),
+                    StackTrace = ex.StackTrace
+                });
+                return StatusCode(500, "Erro ao deletar estoque");
+            }
         }
     }
 }

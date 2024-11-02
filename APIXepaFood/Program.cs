@@ -1,5 +1,6 @@
 using Domain.Interfaces;
 using Domain.Servicos;
+using Infra;
 using Infra.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,10 @@ builder.Services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
 builder.Services.AddScoped<IEstoqueServico, EstoqueServico>();
 builder.Services.AddScoped<ILojaRepositorio, LojaRepositorio>();
 builder.Services.AddScoped<ILojaServico, LojaServico>();
+
+// Configurando MongoDB
+builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+builder.Services.AddSingleton<LogMongoService>();
 
 // Configurações do Swagger
 builder.Services.AddEndpointsApiExplorer();

@@ -17,7 +17,7 @@ namespace Infra.Repositorios
         }
         public void CriarProduto(ProdutoRequest produto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 connection.Open();
@@ -38,7 +38,7 @@ namespace Infra.Repositorios
         }
         public Produto ObterProdutoPorId(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Produtos WHERE IdProduto = @IdProduto;";
@@ -77,7 +77,7 @@ namespace Infra.Repositorios
 
         public Produto ObterProdutoPorNome(string nome)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Produtos WHERE NomeProduto = @NomeProduto;";
@@ -116,7 +116,7 @@ namespace Infra.Repositorios
 
         public List<Produto> ObterTodosProdutos()
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 var sql = "SELECT * FROM Produtos;";
@@ -155,7 +155,7 @@ namespace Infra.Repositorios
 
         public void AtualizarProdutoPorId(Produto novoProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
@@ -186,7 +186,7 @@ namespace Infra.Repositorios
 
         public void DeletarProdutoPorId(int idProduto)
         {
-            var stringConexao = _configuration.GetConnectionString("ConnectionStringVinicius");
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
                 try
