@@ -24,8 +24,12 @@ namespace Domain.Servicos
                 Nome = novaLoja.Nome,
                 Email = novaLoja.Email,
                 Senha = novaLoja.Senha,
+                CEP = novaLoja.CEPUsuario,
+                Logradouro = novaLoja.LogradouroUsuario,
+                Bairro = novaLoja.BairroUsuario,
+                UF = novaLoja.UFUsuario,
+                Cidade = novaLoja.CidadeUsuario,
                 Telefone = novaLoja.Telefone,
-                Localizacao = novaLoja.LocalizacaoUsuario,
                 Feirante = novaLoja.Feirante
             };
 
@@ -34,7 +38,11 @@ namespace Domain.Servicos
             LojaRequest loja = new LojaRequest
             {
                 NomeLoja = novaLoja.NomeLoja,
-                Localizacao = novaLoja.LocalizacaoLoja,
+                CEP = novaLoja.CEPLoja,
+                Logradouro = novaLoja.LogradouroLoja,
+                Bairro = novaLoja.BairroLoja,
+                UF = novaLoja.UFLoja,
+                Cidade = novaLoja.CidadeLoja,
                 IdUsuario = idUsuario
             };
             _lojaRepositorio.CriarLoja(loja);

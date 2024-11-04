@@ -32,7 +32,11 @@ namespace Infra.Repositorios
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NomeLoja", loja.NomeLoja);
-                    command.Parameters.AddWithValue("@Localizacao", loja.Localizacao);
+                    command.Parameters.AddWithValue("@CEP", loja.CEP);
+                    command.Parameters.AddWithValue("@Logradouro", loja.Logradouro);
+                    command.Parameters.AddWithValue("@Bairro", loja.Bairro);
+                    command.Parameters.AddWithValue("@UF", loja.UF);
+                    command.Parameters.AddWithValue("@Cidade", loja.Cidade);
                     command.Parameters.AddWithValue("@IdUsuario", loja.IdUsuario);
 
                     command.ExecuteNonQuery();

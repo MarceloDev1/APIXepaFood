@@ -24,15 +24,19 @@ namespace Infra.Repositorios
             {
                 connection.Open();
 
-                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, Localizacao, Telefone, Feirante)
-                        VALUES (@Nome, @Email, @Senha, @Localizacao, @Telefone, @Feirante);";
+                var sql = @"INSERT INTO Usuarios (Nome, Email, Senha, CEP, Logradouro, Bairro, UF, Cidade, Telefone, Feirante)
+                        VALUES (@Nome, @Email, @Senha, @CEP, @Logradouro, @Bairro, @UF, @Cidade, @Telefone, @Feirante);";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Nome", usuario.Nome);
                     command.Parameters.AddWithValue("@Email", usuario.Email);
                     command.Parameters.AddWithValue("@Senha", usuario.Senha);
-                    command.Parameters.AddWithValue("@Localizacao", usuario.Localizacao);
+                    command.Parameters.AddWithValue("@CEP", usuario.CEP);
+                    command.Parameters.AddWithValue("@Logradouro", usuario.Logradouro);
+                    command.Parameters.AddWithValue("@Bairro", usuario.Bairro);
+                    command.Parameters.AddWithValue("@UF", usuario.UF);
+                    command.Parameters.AddWithValue("@Cidade", usuario.Cidade);
                     command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
                     command.Parameters.AddWithValue("@Feirante", usuario.Feirante);
 
@@ -57,7 +61,11 @@ namespace Infra.Repositorios
                     command.Parameters.AddWithValue("@Nome", usuario.Nome);
                     command.Parameters.AddWithValue("@Email", usuario.Email);
                     command.Parameters.AddWithValue("@Senha", usuario.Senha);
-                    command.Parameters.AddWithValue("@Localizacao", usuario.Localizacao);
+                    command.Parameters.AddWithValue("@CEP", usuario.CEP);
+                    command.Parameters.AddWithValue("@Logradouro", usuario.Logradouro);
+                    command.Parameters.AddWithValue("@Bairro", usuario.Bairro);
+                    command.Parameters.AddWithValue("@UF", usuario.UF);
+                    command.Parameters.AddWithValue("@Cidade", usuario.Cidade);
                     command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
                     command.Parameters.AddWithValue("@Feirante", usuario.Feirante);
 
