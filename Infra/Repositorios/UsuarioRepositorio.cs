@@ -1,10 +1,10 @@
 ﻿using Domain.Interfaces;
 using Domain.Entidades;
-using Dapper;
-using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Domain.Requests;
+using System.Data;
+using Dapper;
 
 namespace Infra.Repositorios
 {

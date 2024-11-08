@@ -87,7 +87,7 @@ namespace Infra.Repositorios
             {
                 var sql = "SELECT p.*, e.Quantidade FROM Produtos p " +
                           "LEFT JOIN Estoque e ON p.IdProduto = e.IdProduto " +
-                          "WHERE e.IdLoja = @IdLoja;";
+                          "WHERE e.IdLoja = @IdLoja AND e.Quantidade > 0;";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@IdLoja", idLoja);

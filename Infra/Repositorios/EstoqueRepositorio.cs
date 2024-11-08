@@ -244,13 +244,12 @@ namespace Infra.Repositorios
             }
         }
 
-        public List<InformacoesLojaProduto> ObterEstoque(string nomeProduto, string localizacao)
+        public List<Loja> ObterEstoque(string nomeProduto, string localizacao)
         {
             var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
-                var sql = "SELECT p.NomeProduto, p.Preco, p.Descricao DescricaoProduto, l.NomeLoja, " +
-                    "l.Localizacao LocalizacaoLoja, e.Quantidade " +
+                var sql = "SELECT DISTINCT(l.IdLoja), l.NomeLoja, l.Localizacao " +
                     "FROM Produtos p " +
                     "LEFT JOIN Estoque e ON p.IdProduto = e.IdProduto " +
                     "LEFT JOIN Lojas l ON e.IdLoja = l.IdLoja " +
@@ -285,17 +284,14 @@ namespace Infra.Repositorios
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            var listaInformacoes = new List<InformacoesLojaProduto>();
+                            var listaInformacoes = new List<Loja>();
                             while (reader.Read())
                             {
-                                var item = new InformacoesLojaProduto
+                                var item = new Loja
                                 {
-                                    Quantidade = reader.IsDBNull(reader.GetOrdinal("Quantidade")) ? 0 : reader.GetInt32(reader.GetOrdinal("Quantidade")),
-                                    NomeProduto = reader.IsDBNull(reader.GetOrdinal("NomeProduto")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeProduto")),
-                                    DescricaoProduto = reader.IsDBNull(reader.GetOrdinal("DescricaoProduto")) ? string.Empty : reader.GetString(reader.GetOrdinal("DescricaoProduto")),
-                                    Preco = reader.IsDBNull(reader.GetOrdinal("Preco")) ? 0m : reader.GetDecimal(reader.GetOrdinal("Preco")),
+                                    IdLoja = reader.IsDBNull(reader.GetOrdinal("IdLoja")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdLoja")),
                                     NomeLoja = reader.IsDBNull(reader.GetOrdinal("NomeLoja")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeLoja")),
-                                    LocalizacaoLoja = reader.IsDBNull(reader.GetOrdinal("LocalizacaoLoja")) ? string.Empty : reader.GetString(reader.GetOrdinal("LocalizacaoLoja"))
+                                    Localizacao = reader.IsDBNull(reader.GetOrdinal("Localizacao")) ? string.Empty : reader.GetString(reader.GetOrdinal("Localizacao"))
                                 };
                                 listaInformacoes.Add(item);
                             }

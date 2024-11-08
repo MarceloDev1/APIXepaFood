@@ -44,7 +44,7 @@ namespace APIXepaFood.Controllers
 
         [HttpGet]
         [Route("RetornarEstoque")]
-        public List<InformacoesLojaProduto> RetornarEstoque([FromQuery] string nomeProduto = null, string localizacao = null)
+        public List<Loja> RetornarEstoque([FromQuery] string nomeProduto = null, string localizacao = null)
         {
             var listaUsuarios = _estoqueServico.ObterEstoque(nomeProduto, localizacao);
             return listaUsuarios;

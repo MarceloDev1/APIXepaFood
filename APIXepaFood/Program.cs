@@ -27,6 +27,8 @@ builder.Services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
 builder.Services.AddScoped<IEstoqueServico, EstoqueServico>();
 builder.Services.AddScoped<ILojaRepositorio, LojaRepositorio>();
 builder.Services.AddScoped<ILojaServico, LojaServico>();
+builder.Services.AddScoped<ICompraProdutoServico, CompraProdutoServico>();
+builder.Services.AddScoped<ICompraProdutoRepositorio, CompraProdutoRepositorio>();
 
 // Configurações do Swagger
 builder.Services.AddEndpointsApiExplorer();
