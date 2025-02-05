@@ -1,9 +1,36 @@
+using Domain.Interfaces;
+using Domain.Servicos;
+using Infra.Repositorios;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTudo", policy =>
+    {
+        policy.AllowAnyOrigin()    // Permitir qualquer origem (domínios)
+              .AllowAnyMethod()    // Permitir qualquer método (GET, POST, etc.)
+              .AllowAnyHeader();   // Permitir qualquer cabeçalho
+    });
+});
+
+// Registre seus serviços
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
+builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+builder.Services.AddScoped<IProdutoServico, ProdutoServico>();
+builder.Services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
+builder.Services.AddScoped<IEstoqueServico, EstoqueServico>();
+builder.Services.AddScoped<ILojaRepositorio, LojaRepositorio>();
+builder.Services.AddScoped<ILojaServico, LojaServico>();
+builder.Services.AddScoped<ICompraProdutoServico, CompraProdutoServico>();
+builder.Services.AddScoped<ICompraProdutoRepositorio, CompraProdutoRepositorio>();
+
+// Configurações do Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -15,6 +42,9 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Habilitar o CORS para todas as rotas
+app.UseCors("PermitirTudo");
 
 app.UseHttpsRedirection();
 
