@@ -256,7 +256,7 @@ namespace Infra.Repositorios
             var stringConexao = _configuration.GetConnectionString("ConnectionString");
             using (SqlConnection connection = new SqlConnection(stringConexao))
             {
-                var sql = "SELECT * FROM Usuarios WHERE Email = @Email AND Senha = @Senha;";
+                var sql = "SELECT * FROM Usuarios WHERE Email = @Email AND Senha COLLATE Latin1_General_BIN = @Senha;";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Email", email);
