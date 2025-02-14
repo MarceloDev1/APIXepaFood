@@ -2,6 +2,7 @@
 using Domain.Entidades;
 using Domain.Interfaces;
 using Domain.Requests;
+using System.Text.RegularExpressions;
 
 namespace APIXepaFood.Controllers
 {
@@ -19,12 +20,22 @@ namespace APIXepaFood.Controllers
         [Route("CriarUsuario")]
         public IActionResult CriarUsuario([FromBody] UsuarioRequest novoUsuario)
         {
-            if (novoUsuario == null)
-                return BadRequest("Dados inválidos.");
 
-            var usuarioExistente = _usuarioServico.ObterUsuarioPorEmail(novoUsuario.Email);
-            if (usuarioExistente != null)
-                return Conflict("Usuário com este email já existe.");
+            var erroValidacao = novoUsuario?.ValidarCamposObrigatorios();
+            if (erroValidacao != null)
+                return BadRequest(erroValidacao);
+
+
+            var emailValidacao = novoUsuario?.ValidarEmail(novoUsuario.Email);
+            if (emailValidacao != null)
+                return BadRequest(emailValidacao);
+
+            var senhaValidacao = novoUsuario?.ValidarSenha(novoUsuario.Senha);
+            if(senhaValidacao != null)
+              return BadRequest(senhaValidacao);
+
+            if (_usuarioServico.ObterUsuarioPorEmail(novoUsuario.Email) != null)
+                return Conflict("Já existe um usuário com este email.");
 
             _usuarioServico.CriarUsuario(novoUsuario);
             return Ok(new { mensagem = "Usuário criado com sucesso!", usuario = novoUsuario });

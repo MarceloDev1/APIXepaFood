@@ -1,4 +1,5 @@
 ﻿using APIXepaFood.Controllers;
+using Domain.Entidades;
 using Domain.Interfaces;
 
 namespace Domain.Servicos
@@ -25,6 +26,13 @@ namespace Domain.Servicos
                 _compraProdutoRepositorio.RegistrarItemCompra(idCompra, item.IdProduto, item.Quantidade, item.PrecoUnitario);
                 _compraProdutoRepositorio.AtualizarEstoque(item.IdProduto, item.Quantidade);
             }
+        }
+
+        public int RetornarQtdProdutoEstoque(int idProduto)
+        {
+            var qtdProduto = _compraProdutoRepositorio.RetornarQtdProdutoEstoque(idProduto);
+
+            return qtdProduto;
         }
     }
 }

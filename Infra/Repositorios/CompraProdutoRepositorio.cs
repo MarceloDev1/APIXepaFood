@@ -86,6 +86,36 @@ namespace Infra.Repositorios
                 }
             }
         }
+        public int RetornarQtdProdutoEstoque(int idProduto)
+        {
+            var stringConexao = _configuration.GetConnectionString("ConnectionString");
+            using (SqlConnection connection = new SqlConnection(stringConexao))
+            {
+                var sql = "SELECT Quantidade FROM Estoque WHERE IdProduto = @IdProduto;";
 
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@IdProduto", idProduto);
+
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return reader.GetInt32(reader.GetOrdinal("Quantidade"));
+                            }
+                            return 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Erro ao obter quantidade de estoque por IdProduto.", ex);
+                    }
+                }
+            }
+        }
     }
 }

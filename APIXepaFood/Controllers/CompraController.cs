@@ -21,7 +21,11 @@ namespace APIXepaFood.Controllers
         {
             if (compra == null)
                 return BadRequest("Dados inválidos.");
+
             _compraProdutoServico.ComprarProduto(compra);
+
+            //TODO: retornar estoque atualizado para atualizar os dados na tela
+            //var estoqueProduto = _compraProdutoServico.RetornarQtdProdutoEstoque(compra.Produtos.FirstOrDefau(x => x.IdProduto));
             
             return Ok(new { mensagem = "Compra efetuada com sucesso!", compra = compra });
         }
